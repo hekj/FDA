@@ -28,7 +28,7 @@ Vision-and-Language Navigation (VLN) is a challenging task that requires an agen
 
 ## Method
 
-![](assets/method.png)
+![](method.jpg)
 
 ## TODOs
 * [ ] Release Feature Extract Code.
