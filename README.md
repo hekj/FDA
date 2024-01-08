@@ -29,12 +29,78 @@ Vision-and-Language Navigation (VLN) is a challenging task that requires an agen
 ## Method
 
 <div  align="center">    
-<img src="./method.jpg" width = "800" height = "400" alt="method" align=center />
+<img src="./method.jpg" width = "800" height = "370" alt="method" align=center />
 </div>
 
 
 ## TODOs
-* [ ] Release Feature Extract Code.
-* [ ] Release Extracted Feature (by HAMT-ViT).
-* [ ] Release VLN Code (TD-STP on R2R).
+* [X] Release Feature Extract Code.
+* [X] Release Extracted Feature (by HAMT-ViT).
+* [X] Release VLN Code (TD-STP on R2R).
+
+## Setup
+
+### Installation
+
+This repo keeps the same installation settings as the [TD-STP](https://github.com/YushengZhao/TD-STP/tree/main) and [HAMT](https://github.com/cshizhe/VLN-HAMT?tab=readme-ov-file#extracting-features-optional). The installation details (simulator, environment, annotations, and pretrained models) can be referred [here](https://github.com/cshizhe/VLN-HAMT?tab=readme-ov-file#extracting-features-optional).
+
+### Extracting features
+The normal visual feature `vitbase_r2rfte2e_rgb.hdf5` and FDA visual feature `vitbase_r2rfte2e_fda.hdf5` can be downloaded [here](https://drive.google.com/drive/folders/1tRGJNJ53s9QoxSCqcl_7Ch3rtebf7RIQ?usp=sharing) directly. Then put them in the `/path_to_datasets/datasets/R2R/features/` directory.
+
+If you want to extract them by yourself, please use the following commands with the scripts in `preprocess` directory.
+
+
+   ```bash
+   # Extract the normal visual feature
+   CUDA_VISIBLE_DEVICES=0 python precompute_img_features_vit.py \
+    --model_name vit_base_patch16_224 --out_image_logits \
+    --connectivity_dir /path_to_datasets/datasets/R2R/connectivity \
+    --scan_dir /path_to_datasets/datasets/Matterport3D/v1_unzip_scans \
+    --num_workers 4 \
+    --checkpoint_file /path_to_datasets/datasets/R2R/trained_models/vit_step_22000.pt \
+    --output_file /path_to_datasets/datasets/R2R/features/vitbase_r2rfte2e_rgb.hdf5
+
+   # Extract the FDA visual feature
+   CUDA_VISIBLE_DEVICES=0 python fda_highfreq_perturbed.py \
+   --model_name vit_base_patch16_224 --out_image_logits \
+   --connectivity_dir /path_to_datasets/R2R/connectivity \
+   --scan_dir /path_to_datasets/datasets/Matterport3D/v1_unzip_scans \
+   --num_workers 4 \
+   --checkpoint_file /path_to_datasets/datasets/R2R/trained_models/vit_step_22000.pt \
+   --output_file /path_to_datasets/datasets/R2R/features/vitbase_r2rfte2e_fda.hdf5
+   ```
+
+## Training & Inference
+
+To train on R2R: 
+```
+cd finetune_src
+bash ./scripts/run_r2r.sh
+```
+
+To test on R2R:
+```
+cd finetune_src
+bash ./scripts/test_r2r.sh
+```
+
+
+
+# Acknowledge
+
+Our implementations are partially inspired by [TD-STP](https://github.com/YushengZhao/TD-STP/tree/main) and [HAMT](https://github.com/cshizhe/VLN-HAMT?tab=readme-ov-file#extracting-features-optional). We appreciate them for releasing their great works!
+
+# Citation
+
+If you find this repository useful, please consider citing our paper:
+
+```
+@inproceedings{
+he2023frequencyenhanced,
+title={Frequency-Enhanced Data Augmentation for Vision-and-Language Navigation},
+author={Keji He and Chenyang Si and Zhihe Lu and Yan Huang and Liang Wang and Xinchao Wang},
+booktitle={Thirty-seventh Conference on Neural Information Processing Systems},
+year={2023}
+}
+```
 

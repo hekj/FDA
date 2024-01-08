@@ -1,13 +1,17 @@
+export PYTHONPATH=/path_to_simulator/Matterport3DSimulator/build:$PYTHONPATH
+
 ob_type=pano
 feedback=sample
 
-features=vitbase_r2rfte2e  # or vitbase
+features=vitbase_r2rfte2e_rgb
+features_fda=vitbase_r2rfte2e_fda
+
 ft_dim=768
 
 ngpus=1
 seed=1
 
-outdir=../datasets/R2R/trained_models/r2r-best
+outdir=/path_to_datasets/datasets/R2R/trained_models/r2r_fda
 
 flag="--logit-reweighting
       --global-positions
@@ -16,7 +20,6 @@ flag="--logit-reweighting
       --gp_grid_size 5
       --rl_teacher_weight 0.4
 
-      --root_dir ../datasets
       --output_dir ${outdir}
 
       --dataset r2r
@@ -36,6 +39,7 @@ flag="--logit-reweighting
       --fix_lang_embedding
 
       --features ${features}
+      --features_fda ${features_fda}
       --feedback ${feedback}
 
       --max_action_len 15
@@ -53,7 +57,9 @@ flag="--logit-reweighting
       --ml_weight 0.2
 
       --feat_dropout 0.4
-      --dropout 0.5"
+      --dropout 0.5
+      --root_dir /path_to_datasets/datasets
+      "
 
 # inference
 # vitbase.e2e resume_file: ../datasets/R2R/trained_models/vitbase-finetune-e2e/ckpts/best_val_unseen
