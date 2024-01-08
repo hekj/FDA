@@ -115,7 +115,7 @@ class Seq2SeqCMTAgent(BaseAgent):
         # which is zero in my implementation
 
         ####### freq ###########
-        rgb_low_high_num = 1  
+        rgb_low_high_num = 1
 
         for i, ob in enumerate(obs):
             cand_img_fts, cand_ang_fts, cand_nav_types, cand_pos = [], [], [], []
@@ -201,7 +201,7 @@ class Seq2SeqCMTAgent(BaseAgent):
 
     def _history_variable(self, obs):
         ##### freq #######
-        rgb_low_high_num = 1  # 只有rgb，low， 或 high单个的时候，设为 1
+        rgb_low_high_num = 1  
         
         hist_img_feats = np.zeros((len(obs), self.args.image_feat_size*rgb_low_high_num), np.float32)
         for i, ob in enumerate(obs):
